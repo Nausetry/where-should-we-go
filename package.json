@@ -1,0 +1,27 @@
+{
+  "name": "where-should-we-go",
+  "version": "1.0.0",
+  "description": "Group trip voting page",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nausetry/where-should-we-go.git"
+  },
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Nausetry/where-should-we-go/issues"
+  },
+  "homepage": "https://github.com/Nausetry/where-should-we-go#readme",
+  "private": "true",
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "supabase": "^2.118.0",
+    "vitest": "^5.0.3"
+  }
+}
