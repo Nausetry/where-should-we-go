@@ -4,7 +4,7 @@ A web page for deciding a group trip by vote. One person creates a trip and list
 
 Requirements are in [docs/PRD.md](docs/PRD.md).
 
-Status: Milestone 0 (setup). Nothing is deployed yet.
+Status: Milestone 0 complete. Supabase project created and linked. Nothing is deployed yet.
 
 ## Layout
 
