@@ -38,7 +38,7 @@ export const STATES = [
   {
     name: 'trip not found', expectedAccent: null,
     run: async ({ page }) => {
-      await page.goto('/?trip=ZZZZZZZZ');
+      await page.goto('./?trip=ZZZZZZZZ');
       await page.getByText('No trip found for this link. Check the code and try again.').waitFor();
     },
   },

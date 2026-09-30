@@ -24,7 +24,7 @@ export function tripValues(over = {}) {
 }
 
 export async function gotoCreate(page) {
-  await page.goto('/');
+  await page.goto('./');
   await expect(T(page, 'trip-name')).toBeVisible();
 }
 
@@ -76,7 +76,7 @@ export function idFromLink(text) {
 }
 
 export async function openTrip(page, id) {
-  await page.goto(`/?trip=${id}`);
+  await page.goto(`./?trip=${id}`);
   await expect(T(page, 'trip-title')).toBeVisible({ timeout: 15000 });
 }
 

@@ -23,7 +23,7 @@ test.describe('Accessibility scan: zero serious or critical findings', () => {
 
   test('the page has a language, a title, one main landmark, and one level-one heading on the trip screen', async ({ page, trips }) => {
     const t = await trips.create({ label: 'Landmarks' });
-    await page.goto(`/?trip=${t.id}`);
+    await page.goto(`./?trip=${t.id}`);
     await expect(T(page, 'trip-title')).toBeVisible();
     await expect(page.locator('html')).toHaveAttribute('lang', /^en/);
     await expect(page.locator('main')).toHaveCount(1);
@@ -32,7 +32,7 @@ test.describe('Accessibility scan: zero serious or critical findings', () => {
   });
 
   test('every form control has an accessible name', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await expect(T(page, 'trip-name')).toBeVisible();
     const unnamed = await page.evaluate(() => [...document.querySelectorAll('input, select, textarea, button')]
       .filter((e) => e.type !== 'hidden' && e.getClientRects().length)
@@ -42,7 +42,7 @@ test.describe('Accessibility scan: zero serious or critical findings', () => {
   });
 
   test('errors are announced: the error summary and field errors are reachable by assistive technology', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('./');
     await T(page, 'review-button').click();
     const summary = T(page, 'error-summary');
     await expect(summary).toBeVisible();
@@ -58,7 +58,7 @@ test.describe('Keyboard only', () => {
   test('create a trip and vote using only the keyboard', async ({ page, trips }, testInfo) => {
     test.setTimeout(120000);
     const v = tripValues({ name: testName('Keys'), size: '2' });
-    await page.goto('/');
+    await page.goto('./');
     await expect(T(page, 'trip-name')).toBeVisible();
 
     // Type into a field by reaching it with Tab only.
@@ -121,7 +121,7 @@ test.describe('Keyboard only', () => {
   test('close voting, confirm, reopen, and delete by keyboard, with Escape cancelling a dialog', async ({ page, trips }) => {
     test.setTimeout(90000);
     const t = await trips.create({ label: 'KeysClose' });
-    await page.goto(`/?trip=${t.id}`);
+    await page.goto(`./?trip=${t.id}`);
     await expect(T(page, 'trip-title')).toBeVisible();
     await tabTo(page, 'close-voting');
     await page.keyboard.press('Enter');

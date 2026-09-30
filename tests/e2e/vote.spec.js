@@ -80,9 +80,9 @@ test.describe('Trip header and disclosure', () => {
   });
 
   test('unknown trip code shows the plain message', async ({ page }) => {
-    await page.goto('/?trip=ZZZZZZZZ');
+    await page.goto('./?trip=ZZZZZZZZ');
     await expect(page.getByText('No trip found for this link. Check the code and try again.')).toBeVisible({ timeout: 15000 });
-    await page.goto('/?trip=abc');
+    await page.goto('./?trip=abc');
     await expect(page.getByText('No trip found for this link. Check the code and try again.')).toBeVisible({ timeout: 15000 });
   });
 

@@ -336,7 +336,7 @@ test.describe('Delete trip', () => {
     await T(page, 'confirm-ok').click();
     await expect.poll(() => tripExists(t.id), { timeout: 10000 }).toBe(false);
     await expect(T(page, 'trip-title')).toHaveCount(0);
-    await page.goto(`/?trip=${t.id}`);
+    await page.goto(`./?trip=${t.id}`);
     await expect(page.getByText('No trip found for this link. Check the code and try again.')).toBeVisible({ timeout: 15000 });
   });
 
