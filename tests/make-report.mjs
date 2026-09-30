@@ -30,7 +30,15 @@ function collect(file) {
   return out;
 }
 const e2e = collect(e2eFile);
-const live = collect(liveFile);
+function fromLog(file) {
+  const out = [];
+  for (const line of readFileSync(file, 'utf8').split('\n')) {
+    const m = /^\s+(✓|✘)\s+\d+ \[(\w+)\] › (\S+?):\d+:\d+ › (.*?) \([\d.]+m?s\)$/.exec(line);
+    if (m) out.push({ project: m[2], file: m[3], name: m[4], status: m[1] === '✓' ? 'Pass' : 'FAIL', ms: 0 });
+  }
+  return out;
+}
+const live = liveFile && liveFile.endsWith('.log') ? fromLog(liveFile) : collect(liveFile);
 const count = (arr) => ({ n: arr.length, pass: arr.filter((x) => x.status === 'Pass').length });
 const layerOf = (t) => (/a11y/.test(t.file) ? '6. Accessibility' : /design/.test(t.file) ? '5. Design checks' : '4. Browser tests');
 

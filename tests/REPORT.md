@@ -9,9 +9,9 @@ Run date: September 30, 2026. Release 1 (Open).
 | 1. Database tests | 278 | 278 | Pass |
 | 2. Rule tests | 59 | 59 | Pass |
 | 3. Input and unit tests | 223 | 223 | Pass |
-| 4. Browser tests (desktop and phone) | 0 | 0 | Pass |
-| 5. Design checks (desktop and phone) | 0 | 0 | Pass |
-| 6. Accessibility (desktop and phone) | 0 | 0 | Pass |
+| 4. Browser tests (desktop and phone) | 212 | 212 | Pass |
+| 5. Design checks (desktop and phone) | 38 | 38 | Pass |
+| 6. Accessibility (desktop and phone) | 46 | 46 | Pass |
 | Live site, all browser layers at the public link | 296 | 296 | Pass |
 | Secret scan (tests/scan-secrets.sh) | 1 | 1 | Clean |
 | 7. Device check on a real phone | not automated | not run | Waiting on the owner to sign off |
@@ -587,11 +587,6 @@ Release 1 is not complete until the owner signs off layer 7 on a real phone at t
 
 | # | Layer | Project | Test | Result | Date |
 |---|---|---|---|---|---|
-
-## Every browser test at the public link
-
-| # | Layer | Project | Test | Result | Date |
-|---|---|---|---|---|---|
 | 1 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings > create form, empty | Pass | September 30, 2026 |
 | 2 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings > create form, errors showing | Pass | September 30, 2026 |
 | 3 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings > create form, warnings and ten rows | Pass | September 30, 2026 |
@@ -888,4 +883,305 @@ Release 1 is not complete until the owner signs off layer 7 on a real phone at t
 | 294 | 4. Browser tests | phone | Dropped connection and closing mid-vote > after a dropped connection the page reconnects and catches up by itself | Pass | September 30, 2026 |
 | 295 | 4. Browser tests | phone | Dropped connection and closing mid-vote > voting closes while someone is mid-vote: rejected with a clear message and nothing recorded | Pass | September 30, 2026 |
 | 296 | 4. Browser tests | phone | Dropped connection and closing mid-vote > voting is blocked after close and the page says so | Pass | September 30, 2026 |
+
+## Every browser test at the public link
+
+| # | Layer | Project | Test | Result | Date |
+|---|---|---|---|---|---|
+| 1 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › create form, empty | Pass | September 30, 2026 |
+| 2 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › create form, errors showing | Pass | September 30, 2026 |
+| 3 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › create form, warnings and ten rows | Pass | September 30, 2026 |
+| 4 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › create read-back | Pass | September 30, 2026 |
+| 5 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › create success with trip link | Pass | September 30, 2026 |
+| 6 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › trip not found | Pass | September 30, 2026 |
+| 7 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › trip open, visitor asked for a name | Pass | September 30, 2026 |
+| 8 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › trip open, member with votes and voter list | Pass | September 30, 2026 |
+| 9 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › trip open, add and edit activity with errors | Pass | September 30, 2026 |
+| 10 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › dialog: remove activity with votes | Pass | September 30, 2026 |
+| 11 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › dialog: close voting | Pass | September 30, 2026 |
+| 12 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › dialog: delete trip with wrong name | Pass | September 30, 2026 |
+| 13 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › trip open, vote rejected after close | Pass | September 30, 2026 |
+| 14 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › trip confirmed, votes and default votes | Pass | September 30, 2026 |
+| 15 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › trip confirmed, zero votes | Pass | September 30, 2026 |
+| 16 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › trip confirmed, tie and fewer activities than size | Pass | September 30, 2026 |
+| 17 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › trip confirmed, tie at the last place | Pass | September 30, 2026 |
+| 18 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › dialog: reopen after the deadline | Pass | September 30, 2026 |
+| 19 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › the page has a language, a title, one main landmark, and one level-one heading on the trip screen | Pass | September 30, 2026 |
+| 20 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › every form control has an accessible name | Pass | September 30, 2026 |
+| 21 | 6. Accessibility | desktop | Accessibility scan: zero serious or critical findings › errors are announced: the error summary and field errors are reachable by assistive technology | Pass | September 30, 2026 |
+| 22 | 6. Accessibility | desktop | Keyboard only › create a trip and vote using only the keyboard | Pass | September 30, 2026 |
+| 23 | 6. Accessibility | desktop | Keyboard only › close voting, confirm, reopen, and delete by keyboard, with Escape cancelling a dialog | Pass | September 30, 2026 |
+| 24 | 4. Browser tests | desktop | Activities › add an activity: it appears with its details and the stored list grows | Pass | September 30, 2026 |
+| 25 | 4. Browser tests | desktop | Activities › add activity errors sit beside the field and keep the typed values | Pass | September 30, 2026 |
+| 26 | 4. Browser tests | desktop | Activities › a new activity shows on a second open page live | Pass | September 30, 2026 |
+| 27 | 4. Browser tests | desktop | Activities › edit an activity: save changes it, cancel leaves it | Pass | September 30, 2026 |
+| 28 | 4. Browser tests | desktop | Activities › edit errors show beside the field and keep the typed value | Pass | September 30, 2026 |
+| 29 | 4. Browser tests | desktop | Activities › editing an activity keeps its votes | Pass | September 30, 2026 |
+| 30 | 4. Browser tests | desktop | Activities › remove an activity with no votes | Pass | September 30, 2026 |
+| 31 | 4. Browser tests | desktop | Activities › remove an activity with votes: the confirmation states the votes lost, cancel keeps them, ok removes them | Pass | September 30, 2026 |
+| 32 | 4. Browser tests | desktop | Activities › a single vote is stated as "1 vote" in the removal confirmation | Pass | September 30, 2026 |
+| 33 | 4. Browser tests | desktop | Activities › set the default pick: only one badge, it moves, and the stored pick follows | Pass | September 30, 2026 |
+| 34 | 4. Browser tests | desktop | Activities › removing the default pick makes the earliest remaining activity the default pick | Pass | September 30, 2026 |
+| 35 | 4. Browser tests | desktop | Activities › change the itinerary size; bad sizes are refused beside the field | Pass | September 30, 2026 |
+| 36 | 4. Browser tests | desktop | Activities › edits are blocked after close | Pass | September 30, 2026 |
+| 37 | 4. Browser tests | desktop | Close early and the confirmed itinerary › close early: consequence dialog names the numbers, cancel keeps voting open, ok confirms the itinerary | Pass | September 30, 2026 |
+| 38 | 4. Browser tests | desktop | Close early and the confirmed itinerary › the confirmed page loads the same for a visitor who opens it later, with voters still listed | Pass | September 30, 2026 |
+| 39 | 4. Browser tests | desktop | Close early and the confirmed itinerary › zero votes: the statement says no votes were cast and the default pick leads, then order added | Pass | September 30, 2026 |
+| 40 | 4. Browser tests | desktop | Close early and the confirmed itinerary › zero votes with a changed default pick: that pick first, then activities in the order added | Pass | September 30, 2026 |
+| 41 | 4. Browser tests | desktop | Close early and the confirmed itinerary › a tie at the last place is broken by default pick, then earliest added, and the basis line says so | Pass | September 30, 2026 |
+| 42 | 4. Browser tests | desktop | Close early and the confirmed itinerary › a tie won by the default pick | Pass | September 30, 2026 |
+| 43 | 4. Browser tests | desktop | Close early and the confirmed itinerary › fewer activities than the itinerary size: lists them all and says so | Pass | September 30, 2026 |
+| 44 | 4. Browser tests | desktop | Close early and the confirmed itinerary › size of 1 confirms a single activity | Pass | September 30, 2026 |
+| 45 | 4. Browser tests | desktop | Close early and the confirmed itinerary › all members voting leaves no default votes | Pass | September 30, 2026 |
+| 46 | 4. Browser tests | desktop | Close early and the confirmed itinerary › closing on one page updates another open page without a reload | Pass | September 30, 2026 |
+| 47 | 4. Browser tests | desktop | Deadline closing (clock control) › voting closes at the deadline with no manual step | Pass | September 30, 2026 |
+| 48 | 4. Browser tests | desktop | Deadline closing (clock control) › an open page flips to closed on its own when the deadline passes in real time | Pass | September 30, 2026 |
+| 49 | 4. Browser tests | desktop | Deadline closing (clock control) › a page opened after the deadline shows the confirmed itinerary | Pass | September 30, 2026 |
+| 50 | 4. Browser tests | desktop | Deadline closing (clock control) › a vote after the deadline is refused with the closing time in the message | Pass | September 30, 2026 |
+| 51 | 4. Browser tests | desktop | Reopen › reopen after an early close restores the live standing and clears the confirmed statement | Pass | September 30, 2026 |
+| 52 | 4. Browser tests | desktop | Reopen › reopen after the deadline has passed needs a new deadline in the future | Pass | September 30, 2026 |
+| 53 | 4. Browser tests | desktop | Reopen › reopening on one page updates another open page | Pass | September 30, 2026 |
+| 54 | 4. Browser tests | desktop | Delete trip › delete needs the exact trip name and states what will be removed | Pass | September 30, 2026 |
+| 55 | 4. Browser tests | desktop | Delete trip › deleting a closed trip also works | Pass | September 30, 2026 |
+| 56 | 4. Browser tests | desktop | Create trip › happy path: fill, read back, confirm, see link, open trip, stored values match | Pass | September 30, 2026 |
+| 57 | 4. Browser tests | desktop | Create trip › copy link puts the trip link on the clipboard | Pass | September 30, 2026 |
+| 58 | 4. Browser tests | desktop | Create trip › review-edit goes back with every value intact, and edits carry through | Pass | September 30, 2026 |
+| 59 | 4. Browser tests | desktop | Create trip › double press of Create trip creates exactly one trip | Pass | September 30, 2026 |
+| 60 | 4. Browser tests | desktop | Create trip › double press of Review trip shows one read-back | Pass | September 30, 2026 |
+| 61 | 4. Browser tests | desktop | Create trip › text is trimmed and repeated spaces collapse, and the read-back shows the result | Pass | September 30, 2026 |
+| 62 | 4. Browser tests | desktop | Create trip › values at each limit are accepted and stored | Pass | September 30, 2026 |
+| 63 | 4. Browser tests | desktop | Create trip › minimum limits are accepted: 3 character name, 2 character destination, size 1 | Pass | September 30, 2026 |
+| 64 | 4. Browser tests | desktop | Create trip: field errors › trip-name = "ab" shows "Trip name needs at least 3 characters." beside the field and keeps the value | Pass | September 30, 2026 |
+| 65 | 4. Browser tests | desktop | Create trip: field errors › trip-name = "" shows "Trip name needs at least 3 characters." beside the field and keeps the value | Pass | September 30, 2026 |
+| 66 | 4. Browser tests | desktop | Create trip: field errors › destination = "a" shows "Enter a destination, for example Provincetown, MA." beside the field and keeps the value | Pass | September 30, 2026 |
+| 67 | 4. Browser tests | desktop | Create trip: field errors › destination = "" shows "Enter a destination, for example Provincetown, MA." beside the field and keeps the value | Pass | September 30, 2026 |
+| 68 | 4. Browser tests | desktop | Create trip: field errors › start-date = "" shows "Choose a start date." beside the field and keeps the value | Pass | September 30, 2026 |
+| 69 | 4. Browser tests | desktop | Create trip: field errors › end-date = "2026-10-29" shows "End date is before the start date." beside the field and keeps the value | Pass | September 30, 2026 |
+| 70 | 4. Browser tests | desktop | Create trip: field errors › voting-deadline = a past time shows "Choose a deadline that has not passed." beside the field and keeps the value | Pass | September 30, 2026 |
+| 71 | 4. Browser tests | desktop | Create trip: field errors › itinerary-size = "0" shows "Enter a whole number from 1 to 30." beside the field and keeps the value | Pass | September 30, 2026 |
+| 72 | 4. Browser tests | desktop | Create trip: field errors › itinerary-size = "31" shows "Enter a whole number from 1 to 30." beside the field and keeps the value | Pass | September 30, 2026 |
+| 73 | 4. Browser tests | desktop | Create trip: field errors › itinerary-size = "2.5" shows "Enter a whole number from 1 to 30." beside the field and keeps the value | Pass | September 30, 2026 |
+| 74 | 4. Browser tests | desktop | Create trip: field errors › itinerary-size = "-3" shows "Enter a whole number from 1 to 30." beside the field and keeps the value | Pass | September 30, 2026 |
+| 75 | 4. Browser tests | desktop | Create trip: field errors › itinerary-size = "" shows "Enter a whole number from 1 to 30." beside the field and keeps the value | Pass | September 30, 2026 |
+| 76 | 4. Browser tests | desktop | Create trip: field errors › organizer-name = "a" shows "Display name needs at least 2 characters." beside the field and keeps the value | Pass | September 30, 2026 |
+| 77 | 4. Browser tests | desktop | Create trip: field errors › activity-title-0 = "ab" shows "Activity title needs at least 3 characters." beside the field and keeps the value | Pass | September 30, 2026 |
+| 78 | 4. Browser tests | desktop | Create trip: field errors › activity-title-1 = "" shows "Activity title needs at least 3 characters." beside the field and keeps the value | Pass | September 30, 2026 |
+| 79 | 4. Browser tests | desktop | Create trip: field errors › activity-description-0 = "xxxxxxxxxxxx..." shows "Keep the description to 140 characters." beside the field and keeps the value | Pass | September 30, 2026 |
+| 80 | 4. Browser tests | desktop | Create trip: field errors › activity-source-0 = "example.com" shows "Enter a full web address beginning with https://." beside the field and keeps the value | Pass | September 30, 2026 |
+| 81 | 4. Browser tests | desktop | Create trip: field errors › activity-source-0 = "ftp://example.com/file" shows "Enter a full web address beginning with https://." beside the field and keeps the value | Pass | September 30, 2026 |
+| 82 | 4. Browser tests | desktop | Create trip: field errors › activity-source-0 = "https://" shows "Enter a full web address beginning with https://." beside the field and keeps the value | Pass | September 30, 2026 |
+| 83 | 4. Browser tests | desktop | Create trip: field errors › too long values are rejected beside the field: name 61, destination 61, title 81 | Pass | September 30, 2026 |
+| 84 | 4. Browser tests | desktop | Create trip: field errors › control characters are rejected | Pass | September 30, 2026 |
+| 85 | 4. Browser tests | desktop | Create trip: field errors › an empty form lists every error at the top, beside each field, and scrolls to the first | Pass | September 30, 2026 |
+| 86 | 4. Browser tests | desktop | Create trip: field errors › fixing the error clears it and the trip can then be reviewed | Pass | September 30, 2026 |
+| 87 | 4. Browser tests | desktop | Create trip: field errors › errors appear as the person types, before submit | Pass | September 30, 2026 |
+| 88 | 4. Browser tests | desktop | Create trip: field errors › description counter follows the text | Pass | September 30, 2026 |
+| 89 | 4. Browser tests | desktop | Create trip: field errors › labels say Required or Optional and show an example | Pass | September 30, 2026 |
+| 90 | 4. Browser tests | desktop | Create trip: activity rows and warnings › starts with three rows, adds up to ten, and does not go below three | Pass | September 30, 2026 |
+| 91 | 4. Browser tests | desktop | Create trip: activity rows and warnings › removing a row keeps the others | Pass | September 30, 2026 |
+| 92 | 4. Browser tests | desktop | Create trip: activity rows and warnings › a trip longer than 30 days shows a warning and still saves | Pass | September 30, 2026 |
+| 93 | 4. Browser tests | desktop | Create trip: activity rows and warnings › a deadline after the start date shows a warning and still saves | Pass | September 30, 2026 |
+| 94 | 4. Browser tests | desktop | Create trip: activity rows and warnings › text is always inserted as plain text, never as markup | Pass | September 30, 2026 |
+| 95 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › create form, empty | Pass | September 30, 2026 |
+| 96 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › create form, errors showing | Pass | September 30, 2026 |
+| 97 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › create form, warnings and ten rows | Pass | September 30, 2026 |
+| 98 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › create read-back | Pass | September 30, 2026 |
+| 99 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › create success with trip link | Pass | September 30, 2026 |
+| 100 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › trip not found | Pass | September 30, 2026 |
+| 101 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › trip open, visitor asked for a name | Pass | September 30, 2026 |
+| 102 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › trip open, member with votes and voter list | Pass | September 30, 2026 |
+| 103 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › trip open, add and edit activity with errors | Pass | September 30, 2026 |
+| 104 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › dialog: remove activity with votes | Pass | September 30, 2026 |
+| 105 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › dialog: close voting | Pass | September 30, 2026 |
+| 106 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › dialog: delete trip with wrong name | Pass | September 30, 2026 |
+| 107 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › trip open, vote rejected after close | Pass | September 30, 2026 |
+| 108 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › trip confirmed, votes and default votes | Pass | September 30, 2026 |
+| 109 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › trip confirmed, zero votes | Pass | September 30, 2026 |
+| 110 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › trip confirmed, tie and fewer activities than size | Pass | September 30, 2026 |
+| 111 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › trip confirmed, tie at the last place | Pass | September 30, 2026 |
+| 112 | 5. Design checks | desktop | Design checks (contract section 6) on every screen and state › dialog: reopen after the deadline | Pass | September 30, 2026 |
+| 113 | 5. Design checks | desktop | Source checks › no innerHTML (or other markup sink) is assigned with user text | Pass | September 30, 2026 |
+| 114 | 4. Browser tests | desktop | Edit trip details (PRD-01) › name, destination, dates and deadline can be changed and show the stored values | Pass | September 30, 2026 |
+| 115 | 4. Browser tests | desktop | Edit trip details (PRD-01) › bad values show the plain error beside the field and keep what was typed | Pass | September 30, 2026 |
+| 116 | 4. Browser tests | desktop | Edit trip details (PRD-01) › a saved deadline in the past is refused | Pass | September 30, 2026 |
+| 117 | 4. Browser tests | desktop | Edit trip details (PRD-01) › the created screen lists the saved values and says where to edit them | Pass | September 30, 2026 |
+| 118 | 4. Browser tests | desktop | A trip keeps at least one activity (F2) › the last activity cannot be removed through the page or the database | Pass | September 30, 2026 |
+| 119 | 4. Browser tests | desktop | Confirmed screen reads result first (D1, D2) › the statement and the table sit on the first screen of a phone, and headings do not split words | Pass | September 30, 2026 |
+| 120 | 4. Browser tests | desktop | Voting closed mid-vote (F-01, A3) › the closed message stays on screen after the page refreshes itself | Pass | September 30, 2026 |
+| 121 | 4. Browser tests | desktop | Nobody joins a confirmed trip (F-02, ADV-01) › join_trip after close is refused and the confirmed totals do not move | Pass | September 30, 2026 |
+| 122 | 4. Browser tests | desktop | Nobody joins a confirmed trip (F-02, ADV-01) › a visitor to a closed trip sees no name form | Pass | September 30, 2026 |
+| 123 | 4. Browser tests | desktop | Thin rules (F-03) › masthead, table headings, cutoff line and buttons use rules of 1 pixel | Pass | September 30, 2026 |
+| 124 | 4. Browser tests | desktop | Long text stays inside the page (ADV-02) › 80 unbroken characters and a 140 character description do not scroll the page sideways | Pass | September 30, 2026 |
+| 125 | 4. Browser tests | desktop | Long text stays inside the page (ADV-02) › a long trip name and long names in the member list also fit | Pass | September 30, 2026 |
+| 126 | 4. Browser tests | desktop | Hidden characters are refused (ADV-03) › a title of zero-width characters is refused with the error beside the field | Pass | September 30, 2026 |
+| 127 | 4. Browser tests | desktop | Hidden characters are refused (ADV-03) › the name form refuses them too | Pass | September 30, 2026 |
+| 128 | 4. Browser tests | desktop | Controls name their activity (A1) › every per-activity button has a distinct accessible name that includes the title | Pass | September 30, 2026 |
+| 129 | 4. Browser tests | desktop | Focus returns after a dialog (A2) › Escape and Cancel put focus back on the Remove button | Pass | September 30, 2026 |
+| 130 | 4. Browser tests | desktop | Focus returns after a dialog (A2) › focus still returns when a live update rebuilds the list while the dialog is open | Pass | September 30, 2026 |
+| 131 | 4. Browser tests | desktop | Trip header and disclosure › header values come from the stored trip | Pass | September 30, 2026 |
+| 132 | 4. Browser tests | desktop | Trip header and disclosure › the page title and heading follow the trip, including after a rename | Pass | September 30, 2026 |
+| 133 | 4. Browser tests | desktop | Trip header and disclosure › rule text shows the stored itinerary size | Pass | September 30, 2026 |
+| 134 | 4. Browser tests | desktop | Trip header and disclosure › not-voted note states how many members have not voted | Pass | September 30, 2026 |
+| 135 | 4. Browser tests | desktop | Trip header and disclosure › every activity shows title, description, source domain, vote count with unit, and the default pick label | Pass | September 30, 2026 |
+| 136 | 4. Browser tests | desktop | Trip header and disclosure › unknown trip code shows the plain message | Pass | September 30, 2026 |
+| 137 | 4. Browser tests | desktop | Trip header and disclosure › a script or markup in activity text shows as plain text | Pass | September 30, 2026 |
+| 138 | 4. Browser tests | desktop | Join and vote › name join flow: empty and one character are refused, a good name is kept across reloads | Pass | September 30, 2026 |
+| 139 | 4. Browser tests | desktop | Join and vote › vote, see the count and label change, withdraw, and it is stored | Pass | September 30, 2026 |
+| 140 | 4. Browser tests | desktop | Join and vote › a person may vote for several activities, one vote each | Pass | September 30, 2026 |
+| 141 | 4. Browser tests | desktop | Join and vote › two people voting add up, and "Show who voted" lists names with times | Pass | September 30, 2026 |
+| 142 | 4. Browser tests | desktop | Join and vote › a second browser sees a vote and a withdrawal within 2 seconds | Pass | September 30, 2026 |
+| 143 | 4. Browser tests | desktop | Join and vote › a vote made by another person through the API shows on an open page within 2 seconds | Pass | September 30, 2026 |
+| 144 | 4. Browser tests | desktop | Join and vote › two people voting at the same moment both count | Pass | September 30, 2026 |
+| 145 | 4. Browser tests | desktop | Join and vote › voting twice in a burst records one vote | Pass | September 30, 2026 |
+| 146 | 4. Browser tests | desktop | Dropped connection and closing mid-vote › after a dropped connection the page reconnects and catches up by itself | Pass | September 30, 2026 |
+| 147 | 4. Browser tests | desktop | Dropped connection and closing mid-vote › voting closes while someone is mid-vote: rejected with a clear message and nothing recorded | Pass | September 30, 2026 |
+| 148 | 4. Browser tests | desktop | Dropped connection and closing mid-vote › voting is blocked after close and the page says so | Pass | September 30, 2026 |
+| 149 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › create form, empty | Pass | September 30, 2026 |
+| 150 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › create form, errors showing | Pass | September 30, 2026 |
+| 151 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › create form, warnings and ten rows | Pass | September 30, 2026 |
+| 152 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › create read-back | Pass | September 30, 2026 |
+| 153 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › create success with trip link | Pass | September 30, 2026 |
+| 154 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › trip not found | Pass | September 30, 2026 |
+| 155 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › trip open, visitor asked for a name | Pass | September 30, 2026 |
+| 156 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › trip open, member with votes and voter list | Pass | September 30, 2026 |
+| 157 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › trip open, add and edit activity with errors | Pass | September 30, 2026 |
+| 158 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › dialog: remove activity with votes | Pass | September 30, 2026 |
+| 159 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › dialog: close voting | Pass | September 30, 2026 |
+| 160 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › dialog: delete trip with wrong name | Pass | September 30, 2026 |
+| 161 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › trip open, vote rejected after close | Pass | September 30, 2026 |
+| 162 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › trip confirmed, votes and default votes | Pass | September 30, 2026 |
+| 163 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › trip confirmed, zero votes | Pass | September 30, 2026 |
+| 164 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › trip confirmed, tie and fewer activities than size | Pass | September 30, 2026 |
+| 165 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › trip confirmed, tie at the last place | Pass | September 30, 2026 |
+| 166 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › dialog: reopen after the deadline | Pass | September 30, 2026 |
+| 167 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › the page has a language, a title, one main landmark, and one level-one heading on the trip screen | Pass | September 30, 2026 |
+| 168 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › every form control has an accessible name | Pass | September 30, 2026 |
+| 169 | 6. Accessibility | phone | Accessibility scan: zero serious or critical findings › errors are announced: the error summary and field errors are reachable by assistive technology | Pass | September 30, 2026 |
+| 170 | 6. Accessibility | phone | Keyboard only › create a trip and vote using only the keyboard | Pass | September 30, 2026 |
+| 171 | 6. Accessibility | phone | Keyboard only › close voting, confirm, reopen, and delete by keyboard, with Escape cancelling a dialog | Pass | September 30, 2026 |
+| 172 | 4. Browser tests | phone | Activities › add an activity: it appears with its details and the stored list grows | Pass | September 30, 2026 |
+| 173 | 4. Browser tests | phone | Activities › add activity errors sit beside the field and keep the typed values | Pass | September 30, 2026 |
+| 174 | 4. Browser tests | phone | Activities › a new activity shows on a second open page live | Pass | September 30, 2026 |
+| 175 | 4. Browser tests | phone | Activities › edit an activity: save changes it, cancel leaves it | Pass | September 30, 2026 |
+| 176 | 4. Browser tests | phone | Activities › edit errors show beside the field and keep the typed value | Pass | September 30, 2026 |
+| 177 | 4. Browser tests | phone | Activities › editing an activity keeps its votes | Pass | September 30, 2026 |
+| 178 | 4. Browser tests | phone | Activities › remove an activity with no votes | Pass | September 30, 2026 |
+| 179 | 4. Browser tests | phone | Activities › remove an activity with votes: the confirmation states the votes lost, cancel keeps them, ok removes them | Pass | September 30, 2026 |
+| 180 | 4. Browser tests | phone | Activities › a single vote is stated as "1 vote" in the removal confirmation | Pass | September 30, 2026 |
+| 181 | 4. Browser tests | phone | Activities › set the default pick: only one badge, it moves, and the stored pick follows | Pass | September 30, 2026 |
+| 182 | 4. Browser tests | phone | Activities › removing the default pick makes the earliest remaining activity the default pick | Pass | September 30, 2026 |
+| 183 | 4. Browser tests | phone | Activities › change the itinerary size; bad sizes are refused beside the field | Pass | September 30, 2026 |
+| 184 | 4. Browser tests | phone | Activities › edits are blocked after close | Pass | September 30, 2026 |
+| 185 | 4. Browser tests | phone | Close early and the confirmed itinerary › close early: consequence dialog names the numbers, cancel keeps voting open, ok confirms the itinerary | Pass | September 30, 2026 |
+| 186 | 4. Browser tests | phone | Close early and the confirmed itinerary › the confirmed page loads the same for a visitor who opens it later, with voters still listed | Pass | September 30, 2026 |
+| 187 | 4. Browser tests | phone | Close early and the confirmed itinerary › zero votes: the statement says no votes were cast and the default pick leads, then order added | Pass | September 30, 2026 |
+| 188 | 4. Browser tests | phone | Close early and the confirmed itinerary › zero votes with a changed default pick: that pick first, then activities in the order added | Pass | September 30, 2026 |
+| 189 | 4. Browser tests | phone | Close early and the confirmed itinerary › a tie at the last place is broken by default pick, then earliest added, and the basis line says so | Pass | September 30, 2026 |
+| 190 | 4. Browser tests | phone | Close early and the confirmed itinerary › a tie won by the default pick | Pass | September 30, 2026 |
+| 191 | 4. Browser tests | phone | Close early and the confirmed itinerary › fewer activities than the itinerary size: lists them all and says so | Pass | September 30, 2026 |
+| 192 | 4. Browser tests | phone | Close early and the confirmed itinerary › size of 1 confirms a single activity | Pass | September 30, 2026 |
+| 193 | 4. Browser tests | phone | Close early and the confirmed itinerary › all members voting leaves no default votes | Pass | September 30, 2026 |
+| 194 | 4. Browser tests | phone | Close early and the confirmed itinerary › closing on one page updates another open page without a reload | Pass | September 30, 2026 |
+| 195 | 4. Browser tests | phone | Deadline closing (clock control) › voting closes at the deadline with no manual step | Pass | September 30, 2026 |
+| 196 | 4. Browser tests | phone | Deadline closing (clock control) › an open page flips to closed on its own when the deadline passes in real time | Pass | September 30, 2026 |
+| 197 | 4. Browser tests | phone | Deadline closing (clock control) › a page opened after the deadline shows the confirmed itinerary | Pass | September 30, 2026 |
+| 198 | 4. Browser tests | phone | Deadline closing (clock control) › a vote after the deadline is refused with the closing time in the message | Pass | September 30, 2026 |
+| 199 | 4. Browser tests | phone | Reopen › reopen after an early close restores the live standing and clears the confirmed statement | Pass | September 30, 2026 |
+| 200 | 4. Browser tests | phone | Reopen › reopen after the deadline has passed needs a new deadline in the future | Pass | September 30, 2026 |
+| 201 | 4. Browser tests | phone | Reopen › reopening on one page updates another open page | Pass | September 30, 2026 |
+| 202 | 4. Browser tests | phone | Delete trip › delete needs the exact trip name and states what will be removed | Pass | September 30, 2026 |
+| 203 | 4. Browser tests | phone | Delete trip › deleting a closed trip also works | Pass | September 30, 2026 |
+| 204 | 4. Browser tests | phone | Create trip › happy path: fill, read back, confirm, see link, open trip, stored values match | Pass | September 30, 2026 |
+| 205 | 4. Browser tests | phone | Create trip › copy link puts the trip link on the clipboard | Pass | September 30, 2026 |
+| 206 | 4. Browser tests | phone | Create trip › review-edit goes back with every value intact, and edits carry through | Pass | September 30, 2026 |
+| 207 | 4. Browser tests | phone | Create trip › double press of Create trip creates exactly one trip | Pass | September 30, 2026 |
+| 208 | 4. Browser tests | phone | Create trip › double press of Review trip shows one read-back | Pass | September 30, 2026 |
+| 209 | 4. Browser tests | phone | Create trip › text is trimmed and repeated spaces collapse, and the read-back shows the result | Pass | September 30, 2026 |
+| 210 | 4. Browser tests | phone | Create trip › values at each limit are accepted and stored | Pass | September 30, 2026 |
+| 211 | 4. Browser tests | phone | Create trip › minimum limits are accepted: 3 character name, 2 character destination, size 1 | Pass | September 30, 2026 |
+| 212 | 4. Browser tests | phone | Create trip: field errors › trip-name = "ab" shows "Trip name needs at least 3 characters." beside the field and keeps the value | Pass | September 30, 2026 |
+| 213 | 4. Browser tests | phone | Create trip: field errors › trip-name = "" shows "Trip name needs at least 3 characters." beside the field and keeps the value | Pass | September 30, 2026 |
+| 214 | 4. Browser tests | phone | Create trip: field errors › destination = "a" shows "Enter a destination, for example Provincetown, MA." beside the field and keeps the value | Pass | September 30, 2026 |
+| 215 | 4. Browser tests | phone | Create trip: field errors › destination = "" shows "Enter a destination, for example Provincetown, MA." beside the field and keeps the value | Pass | September 30, 2026 |
+| 216 | 4. Browser tests | phone | Create trip: field errors › start-date = "" shows "Choose a start date." beside the field and keeps the value | Pass | September 30, 2026 |
+| 217 | 4. Browser tests | phone | Create trip: field errors › end-date = "2026-10-29" shows "End date is before the start date." beside the field and keeps the value | Pass | September 30, 2026 |
+| 218 | 4. Browser tests | phone | Create trip: field errors › voting-deadline = a past time shows "Choose a deadline that has not passed." beside the field and keeps the value | Pass | September 30, 2026 |
+| 219 | 4. Browser tests | phone | Create trip: field errors › itinerary-size = "0" shows "Enter a whole number from 1 to 30." beside the field and keeps the value | Pass | September 30, 2026 |
+| 220 | 4. Browser tests | phone | Create trip: field errors › itinerary-size = "31" shows "Enter a whole number from 1 to 30." beside the field and keeps the value | Pass | September 30, 2026 |
+| 221 | 4. Browser tests | phone | Create trip: field errors › itinerary-size = "2.5" shows "Enter a whole number from 1 to 30." beside the field and keeps the value | Pass | September 30, 2026 |
+| 222 | 4. Browser tests | phone | Create trip: field errors › itinerary-size = "-3" shows "Enter a whole number from 1 to 30." beside the field and keeps the value | Pass | September 30, 2026 |
+| 223 | 4. Browser tests | phone | Create trip: field errors › itinerary-size = "" shows "Enter a whole number from 1 to 30." beside the field and keeps the value | Pass | September 30, 2026 |
+| 224 | 4. Browser tests | phone | Create trip: field errors › organizer-name = "a" shows "Display name needs at least 2 characters." beside the field and keeps the value | Pass | September 30, 2026 |
+| 225 | 4. Browser tests | phone | Create trip: field errors › activity-title-0 = "ab" shows "Activity title needs at least 3 characters." beside the field and keeps the value | Pass | September 30, 2026 |
+| 226 | 4. Browser tests | phone | Create trip: field errors › activity-title-1 = "" shows "Activity title needs at least 3 characters." beside the field and keeps the value | Pass | September 30, 2026 |
+| 227 | 4. Browser tests | phone | Create trip: field errors › activity-description-0 = "xxxxxxxxxxxx..." shows "Keep the description to 140 characters." beside the field and keeps the value | Pass | September 30, 2026 |
+| 228 | 4. Browser tests | phone | Create trip: field errors › activity-source-0 = "example.com" shows "Enter a full web address beginning with https://." beside the field and keeps the value | Pass | September 30, 2026 |
+| 229 | 4. Browser tests | phone | Create trip: field errors › activity-source-0 = "ftp://example.com/file" shows "Enter a full web address beginning with https://." beside the field and keeps the value | Pass | September 30, 2026 |
+| 230 | 4. Browser tests | phone | Create trip: field errors › activity-source-0 = "https://" shows "Enter a full web address beginning with https://." beside the field and keeps the value | Pass | September 30, 2026 |
+| 231 | 4. Browser tests | phone | Create trip: field errors › too long values are rejected beside the field: name 61, destination 61, title 81 | Pass | September 30, 2026 |
+| 232 | 4. Browser tests | phone | Create trip: field errors › control characters are rejected | Pass | September 30, 2026 |
+| 233 | 4. Browser tests | phone | Create trip: field errors › an empty form lists every error at the top, beside each field, and scrolls to the first | Pass | September 30, 2026 |
+| 234 | 4. Browser tests | phone | Create trip: field errors › fixing the error clears it and the trip can then be reviewed | Pass | September 30, 2026 |
+| 235 | 4. Browser tests | phone | Create trip: field errors › errors appear as the person types, before submit | Pass | September 30, 2026 |
+| 236 | 4. Browser tests | phone | Create trip: field errors › description counter follows the text | Pass | September 30, 2026 |
+| 237 | 4. Browser tests | phone | Create trip: field errors › labels say Required or Optional and show an example | Pass | September 30, 2026 |
+| 238 | 4. Browser tests | phone | Create trip: activity rows and warnings › starts with three rows, adds up to ten, and does not go below three | Pass | September 30, 2026 |
+| 239 | 4. Browser tests | phone | Create trip: activity rows and warnings › removing a row keeps the others | Pass | September 30, 2026 |
+| 240 | 4. Browser tests | phone | Create trip: activity rows and warnings › a trip longer than 30 days shows a warning and still saves | Pass | September 30, 2026 |
+| 241 | 4. Browser tests | phone | Create trip: activity rows and warnings › a deadline after the start date shows a warning and still saves | Pass | September 30, 2026 |
+| 242 | 4. Browser tests | phone | Create trip: activity rows and warnings › text is always inserted as plain text, never as markup | Pass | September 30, 2026 |
+| 243 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › create form, empty | Pass | September 30, 2026 |
+| 244 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › create form, errors showing | Pass | September 30, 2026 |
+| 245 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › create form, warnings and ten rows | Pass | September 30, 2026 |
+| 246 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › create read-back | Pass | September 30, 2026 |
+| 247 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › create success with trip link | Pass | September 30, 2026 |
+| 248 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › trip not found | Pass | September 30, 2026 |
+| 249 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › trip open, visitor asked for a name | Pass | September 30, 2026 |
+| 250 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › trip open, member with votes and voter list | Pass | September 30, 2026 |
+| 251 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › trip open, add and edit activity with errors | Pass | September 30, 2026 |
+| 252 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › dialog: remove activity with votes | Pass | September 30, 2026 |
+| 253 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › dialog: close voting | Pass | September 30, 2026 |
+| 254 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › dialog: delete trip with wrong name | Pass | September 30, 2026 |
+| 255 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › trip open, vote rejected after close | Pass | September 30, 2026 |
+| 256 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › trip confirmed, votes and default votes | Pass | September 30, 2026 |
+| 257 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › trip confirmed, zero votes | Pass | September 30, 2026 |
+| 258 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › trip confirmed, tie and fewer activities than size | Pass | September 30, 2026 |
+| 259 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › trip confirmed, tie at the last place | Pass | September 30, 2026 |
+| 260 | 5. Design checks | phone | Design checks (contract section 6) on every screen and state › dialog: reopen after the deadline | Pass | September 30, 2026 |
+| 261 | 5. Design checks | phone | Source checks › no innerHTML (or other markup sink) is assigned with user text | Pass | September 30, 2026 |
+| 262 | 4. Browser tests | phone | Edit trip details (PRD-01) › name, destination, dates and deadline can be changed and show the stored values | Pass | September 30, 2026 |
+| 263 | 4. Browser tests | phone | Edit trip details (PRD-01) › bad values show the plain error beside the field and keep what was typed | Pass | September 30, 2026 |
+| 264 | 4. Browser tests | phone | Edit trip details (PRD-01) › a saved deadline in the past is refused | Pass | September 30, 2026 |
+| 265 | 4. Browser tests | phone | Edit trip details (PRD-01) › the created screen lists the saved values and says where to edit them | Pass | September 30, 2026 |
+| 266 | 4. Browser tests | phone | A trip keeps at least one activity (F2) › the last activity cannot be removed through the page or the database | Pass | September 30, 2026 |
+| 267 | 4. Browser tests | phone | Confirmed screen reads result first (D1, D2) › the statement and the table sit on the first screen of a phone, and headings do not split words | Pass | September 30, 2026 |
+| 268 | 4. Browser tests | phone | Voting closed mid-vote (F-01, A3) › the closed message stays on screen after the page refreshes itself | Pass | September 30, 2026 |
+| 269 | 4. Browser tests | phone | Nobody joins a confirmed trip (F-02, ADV-01) › join_trip after close is refused and the confirmed totals do not move | Pass | September 30, 2026 |
+| 270 | 4. Browser tests | phone | Nobody joins a confirmed trip (F-02, ADV-01) › a visitor to a closed trip sees no name form | Pass | September 30, 2026 |
+| 271 | 4. Browser tests | phone | Thin rules (F-03) › masthead, table headings, cutoff line and buttons use rules of 1 pixel | Pass | September 30, 2026 |
+| 272 | 4. Browser tests | phone | Long text stays inside the page (ADV-02) › 80 unbroken characters and a 140 character description do not scroll the page sideways | Pass | September 30, 2026 |
+| 273 | 4. Browser tests | phone | Long text stays inside the page (ADV-02) › a long trip name and long names in the member list also fit | Pass | September 30, 2026 |
+| 274 | 4. Browser tests | phone | Hidden characters are refused (ADV-03) › a title of zero-width characters is refused with the error beside the field | Pass | September 30, 2026 |
+| 275 | 4. Browser tests | phone | Hidden characters are refused (ADV-03) › the name form refuses them too | Pass | September 30, 2026 |
+| 276 | 4. Browser tests | phone | Controls name their activity (A1) › every per-activity button has a distinct accessible name that includes the title | Pass | September 30, 2026 |
+| 277 | 4. Browser tests | phone | Focus returns after a dialog (A2) › Escape and Cancel put focus back on the Remove button | Pass | September 30, 2026 |
+| 278 | 4. Browser tests | phone | Focus returns after a dialog (A2) › focus still returns when a live update rebuilds the list while the dialog is open | Pass | September 30, 2026 |
+| 279 | 4. Browser tests | phone | Trip header and disclosure › header values come from the stored trip | Pass | September 30, 2026 |
+| 280 | 4. Browser tests | phone | Trip header and disclosure › the page title and heading follow the trip, including after a rename | Pass | September 30, 2026 |
+| 281 | 4. Browser tests | phone | Trip header and disclosure › rule text shows the stored itinerary size | Pass | September 30, 2026 |
+| 282 | 4. Browser tests | phone | Trip header and disclosure › not-voted note states how many members have not voted | Pass | September 30, 2026 |
+| 283 | 4. Browser tests | phone | Trip header and disclosure › every activity shows title, description, source domain, vote count with unit, and the default pick label | Pass | September 30, 2026 |
+| 284 | 4. Browser tests | phone | Trip header and disclosure › unknown trip code shows the plain message | Pass | September 30, 2026 |
+| 285 | 4. Browser tests | phone | Trip header and disclosure › a script or markup in activity text shows as plain text | Pass | September 30, 2026 |
+| 286 | 4. Browser tests | phone | Join and vote › name join flow: empty and one character are refused, a good name is kept across reloads | Pass | September 30, 2026 |
+| 287 | 4. Browser tests | phone | Join and vote › vote, see the count and label change, withdraw, and it is stored | Pass | September 30, 2026 |
+| 288 | 4. Browser tests | phone | Join and vote › a person may vote for several activities, one vote each | Pass | September 30, 2026 |
+| 289 | 4. Browser tests | phone | Join and vote › two people voting add up, and "Show who voted" lists names with times | Pass | September 30, 2026 |
+| 290 | 4. Browser tests | phone | Join and vote › a second browser sees a vote and a withdrawal within 2 seconds | Pass | September 30, 2026 |
+| 291 | 4. Browser tests | phone | Join and vote › a vote made by another person through the API shows on an open page within 2 seconds | Pass | September 30, 2026 |
+| 292 | 4. Browser tests | phone | Join and vote › two people voting at the same moment both count | Pass | September 30, 2026 |
+| 293 | 4. Browser tests | phone | Join and vote › voting twice in a burst records one vote | Pass | September 30, 2026 |
+| 294 | 4. Browser tests | phone | Dropped connection and closing mid-vote › after a dropped connection the page reconnects and catches up by itself | Pass | September 30, 2026 |
+| 295 | 4. Browser tests | phone | Dropped connection and closing mid-vote › voting closes while someone is mid-vote: rejected with a clear message and nothing recorded | Pass | September 30, 2026 |
+| 296 | 4. Browser tests | phone | Dropped connection and closing mid-vote › voting is blocked after close and the page says so | Pass | September 30, 2026 |
 
