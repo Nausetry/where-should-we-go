@@ -603,3 +603,11 @@ describe('subscribe', () => {
     expect(() => api.subscribe('nope', () => {})).toThrow();
   });
 });
+
+describe('mapError, last activity', () => {
+  test('removing the last activity gets a plain message', () => {
+    const e = api.mapError({ message: 'invalid_input: last_activity', code: 'P0001' });
+    expect(e.code).toBe('invalid_input');
+    expect(e.message).toBe('A trip needs at least 1 activity. Add another before removing this one.');
+  });
+});

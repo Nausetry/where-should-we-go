@@ -457,16 +457,18 @@ describe('activities: add, update, remove', () => {
     expect((await summary(db, id)).default_activity_id).toBe(acts[2].id);
   });
 
-  test('removing every activity leaves no default pick and does not break the views', async () => {
+  test('the last activity of a trip cannot be removed, so a trip is never empty', async () => {
     const id = await createTrip(anon);
-    for (const a of await activitiesOf(db, id)) await call('select public.remove_activity($1)', [a.id]);
-    const s = await summary(db, id);
-    expect(s.activity_count).toBe(0);
-    expect(s.default_activity_id).toBeNull();
-    expect(s.tie_broken).toBe(false);
-    await add(id, { title: 'Fresh start' });
     const acts = await activitiesOf(db, id);
-    expect((await summary(db, id)).default_activity_id).toBe(acts[0].id);
+    await call('select public.remove_activity($1)', [acts[0].id]);
+    await call('select public.remove_activity($1)', [acts[1].id]);
+    await expectCode(call('select public.remove_activity($1)', [acts[2].id]), 'invalid_input');
+    const s = await summary(db, id);
+    expect(s.activity_count).toBe(1);
+    expect(s.default_activity_id).toBe(acts[2].id);
+    await add(id, { title: 'Fresh start' });
+    await call('select public.remove_activity($1)', [acts[2].id]);
+    expect((await summary(db, id)).activity_count).toBe(1);
   });
 
   test('remove_activity on an unknown activity', async () => {

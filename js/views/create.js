@@ -485,6 +485,24 @@ export function mountCreate(root) {
         status.el,
         h('p', { class: 'hint', text: 'Anyone with this link can vote, edit, and delete this trip.' }),
       ),
+      h(
+        'section',
+        { testid: 'created-details' },
+        h('h2', { text: 'Saved trip details' }),
+        h(
+          'dl',
+          { class: 'facts' },
+          [
+            ['Trip name', v.name],
+            ['Destination', v.destination],
+            ['Dates', formatRange(v.start_date, v.end_date)],
+            ['Voting deadline', formatDeadline(v.voting_deadline)],
+            ['Itinerary size', plural(v.itinerary_size, 'activity', 'activities')],
+            ['Activities', plural(v.activities.length, 'activity', 'activities')],
+          ].map(([k, val]) => h('div', { class: 'fact' }, h('dt', { text: k }), h('dd', { text: val }))),
+        ),
+        h('p', { class: 'hint', text: 'To change any of these details, open the trip and use Edit trip details.' }),
+      ),
     );
     const heading = root.querySelector('h1');
     heading.setAttribute('tabindex', '-1');

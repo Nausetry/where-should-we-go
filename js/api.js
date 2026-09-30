@@ -116,7 +116,9 @@ function constraintField(raw) {
 
 function build(code, detail, opts) {
   let message = MESSAGES[code];
-  if (code === 'invalid_input') {
+  if (code === 'invalid_input' && detail === 'last_activity') {
+    message = 'A trip needs at least 1 activity. Add another before removing this one.';
+  } else if (code === 'invalid_input') {
     const word = fieldWord(detail);
     message = word
       ? `The ${word} was not accepted. Check it and try again.`

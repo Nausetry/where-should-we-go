@@ -2,7 +2,7 @@
 // members, and organizer actions. Every value comes from loadTrip.
 import * as api from '../api.js';
 import { validateField } from '../validate.js';
-import { formatRange, formatDeadline, formatAsOf, plural } from '../format.js';
+import { formatRange, formatDeadline, formatAsOf, plural, toLocalInput, viewerTimeZone } from '../format.js';
 import {
   h, setKids, makeField, makeMessage, guarded, focusAndShow, keepFocus, confirmAction,
   showNotice, hideNotice, setTitle, domainOf,
@@ -21,6 +21,8 @@ export function mountTrip(root, tripId) {
     unsub: null,
     gone: false,
     built: false,
+    layoutClosed: null,
+    detailsDirty: false,
     joinMode: '',
     orgMode: '',
     lastKey: '',
@@ -32,6 +34,7 @@ export function mountTrip(root, tripId) {
 
   // Containers, created once.
   const headerEl = h('header', { class: 'masthead' });
+  const factsEl = h('section', { class: 'trip-facts' });
   const msg = makeMessage('message');
   const joinEl = h('section', { class: 'join' });
   const ruleEl = h('section', {});
@@ -49,6 +52,7 @@ export function mountTrip(root, tripId) {
   let joinField = null;
   let sizeField = null;
   let sizeHint = null;
+  let detailFields = null;
 
   // ----- data ------------------------------------------------------------
 
@@ -109,16 +113,22 @@ export function mountTrip(root, tripId) {
 
   // ----- render ----------------------------------------------------------
 
-  function build() {
-    setKids(root, headerEl, joinEl, ruleEl, confirmedEl, standingEl, membersEl, organizerEl);
+  // A confirmed trip puts the result first, so the statement and the itinerary are on the
+  // first screen of a phone. An open trip shows its facts first.
+  function build(closed) {
+    const order = closed
+      ? [headerEl, confirmedEl, factsEl, joinEl, ruleEl]
+      : [headerEl, factsEl, joinEl, ruleEl, confirmedEl];
+    setKids(root, ...order, standingEl, membersEl, organizerEl);
+    S.layoutClosed = closed;
     S.built = true;
   }
 
   function render(data) {
     S.data = data;
-    if (headerEl.parentNode !== root) build();
     const s = data.summary;
     const closed = s.effective_status === 'closed';
+    if (headerEl.parentNode !== root || S.layoutClosed !== closed) build(closed);
     if (closed) S.editNodes.clear();
     setTitle(`${s.name}, ${s.destination} | Where Should We Go?`);
     renderHeader(data, closed);
@@ -151,9 +161,9 @@ export function mountTrip(root, tripId) {
       ],
     ];
     if (closed && s.closed_at) facts.push(['Closed', h('dd', { testid: 'trip-closed-at', text: formatAsOf(s.closed_at) })]);
+    setKids(headerEl, h('h1', { testid: 'trip-title', text: s.name }));
     setKids(
-      headerEl,
-      h('h1', { testid: 'trip-title', text: s.name }),
+      factsEl,
       h('dl', { class: 'facts' }, facts.map(([k, dd]) => h('div', { class: 'fact' }, h('dt', { text: k }), dd))),
       h('p', {
         class: 'caveat',
@@ -637,11 +647,13 @@ export function mountTrip(root, tripId) {
     if (sizeField && document.activeElement !== sizeField.input && !sizeField.error) {
       sizeField.input.value = String(s.itinerary_size);
     }
+    if (detailFields && !S.detailsDirty) fillDetails(s);
   }
 
   function buildOrganizer(closed) {
     sizeField = null;
     sizeHint = null;
+    detailFields = null;
     const del = h('button', { type: 'button', testid: 'delete-trip', text: 'Delete trip', onClick: deleteTrip });
     if (closed) {
       const reopen = h('button', { type: 'button', testid: 'reopen-voting', text: 'Reopen voting', onClick: reopen_ });
@@ -654,6 +666,8 @@ export function mountTrip(root, tripId) {
       );
       return;
     }
+
+    const detailsForm = buildDetailsForm();
 
     // Itinerary size
     sizeField = makeField({
@@ -750,11 +764,97 @@ export function mountTrip(root, tripId) {
       organizerEl,
       h('h2', { text: 'Organizer actions' }),
       h('p', { class: 'hint', text: 'Anyone with the link can use these actions until voting closes.' }),
+      h('div', { class: 'subsection' }, h('h3', { text: 'Edit trip details' }), detailsForm),
       h('div', { class: 'subsection' }, h('h3', { text: 'Itinerary size' }), sizeForm),
       h('div', { class: 'subsection' }, h('h3', { text: 'Add an activity' }), addForm),
       h('div', { class: 'subsection' }, h('h3', { text: 'Close voting' }), h('p', { text: 'Voting also closes by itself at the deadline.' }), h('div', { class: 'actions' }, closeBtn)),
       h('div', { class: 'subsection' }, h('h3', { text: 'Delete trip' }), h('p', { text: 'Deleting removes the trip, its activities, and all votes.' }), h('div', { class: 'actions' }, del)),
     );
+  }
+
+  function fillDetails(s) {
+    const f = detailFields;
+    if (!f) return;
+    const vals = {
+      name: s.name, destination: s.destination, start: s.start_date, end: s.end_date,
+      deadline: toLocalInput(s.voting_deadline),
+    };
+    for (const k of Object.keys(vals)) {
+      if (document.activeElement !== f[k].input) f[k].input.value = vals[k];
+    }
+  }
+
+  // Edit control for the trip's own values (PRD section 8, rule 6).
+  function buildDetailsForm() {
+    const s = S.data.summary;
+    const f = {
+      name: makeField({ testid: 'edit-trip-name', label: 'Trip name', hint: 'Example: Cape Cod, October' }),
+      destination: makeField({ testid: 'edit-trip-destination', label: 'Destination', hint: 'Example: Provincetown, MA' }),
+      start: makeField({ testid: 'edit-trip-start-date', label: 'Start date', hint: 'Choose from the calendar.', type: 'date' }),
+      end: makeField({ testid: 'edit-trip-end-date', label: 'End date', hint: 'On or after the start date.', type: 'date' }),
+      deadline: makeField({
+        testid: 'edit-trip-deadline', label: `Voting deadline (times shown in ${viewerTimeZone()})`,
+        hint: 'Date and time, in the future.', type: 'datetime-local',
+      }),
+    };
+    detailFields = f;
+    fillDetails(s);
+    const checks = () => {
+      const start = f.start.value;
+      return [
+        [f.name, validateField('tripName', f.name.value)],
+        [f.destination, validateField('destination', f.destination.value)],
+        [f.start, validateField('startDate', start)],
+        [f.end, validateField('endDate', f.end.value, { startDate: start })],
+        [f.deadline, validateField('votingDeadline', f.deadline.value, { startDate: start })],
+      ];
+    };
+    const show = (results) => {
+      let first = null;
+      for (const [fld, r] of results) {
+        fld.setError(r.ok ? '' : r.error);
+        fld.setWarning(r.ok ? r.warning || '' : '');
+        if (!r.ok && !first) first = fld;
+      }
+      return first;
+    };
+    for (const k of Object.keys(f)) {
+      f[k].input.addEventListener('input', () => {
+        S.detailsDirty = true;
+        show(checks());
+      });
+    }
+    const save = h('button', { type: 'submit', testid: 'edit-trip-save', text: 'Save trip details' });
+    const form = h('form', { novalidate: true }, ...Object.values(f).map((x) => x.root), h('div', { class: 'actions' }, save));
+    form.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      if (save.getAttribute('aria-disabled')) return;
+      msg.clear();
+      const results = checks();
+      const first = show(results);
+      if (first) {
+        first.input.focus();
+        return;
+      }
+      const [name, dest, start, end, deadline] = results.map(([, r]) => r.value);
+      const cur = S.data.summary;
+      const fields = { name, destination: dest, start_date: start, end_date: end };
+      // The deadline is sent only when it changed, so an unchanged value is never re-checked.
+      const sameDeadline = toLocalInput(cur.voting_deadline) === f.deadline.value.trim();
+      if (!sameDeadline) fields.voting_deadline = deadline;
+      save.setAttribute('aria-disabled', 'true');
+      try {
+        await api.updateTrip(tripId, fields);
+        S.detailsDirty = false;
+        await refresh();
+        msg.show('Trip details saved.');
+      } catch (err) {
+        fail(err, 'The trip details were not saved. Try again.');
+      } finally {
+        save.removeAttribute('aria-disabled');
+      }
+    });
+    return form;
   }
 
   async function closeVoting() {
