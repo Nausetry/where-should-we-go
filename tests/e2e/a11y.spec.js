@@ -75,6 +75,7 @@ test.describe('Keyboard only', () => {
     const [dd, tm] = v.deadline.split('T');
     const [hh, mi] = tm.split(':').map(Number);
     await page.keyboard.type(dateDigits(dd));
+    await page.keyboard.press('ArrowRight'); // the year field takes six digits, so move on to the time by key
     await page.keyboard.type(String(((hh + 11) % 12) + 1).padStart(2, '0') + String(mi).padStart(2, '0') + (hh >= 12 ? 'P' : 'A'));
     await type('itinerary-size', v.size);
     await type('organizer-name', v.organizer);
@@ -99,11 +100,8 @@ test.describe('Keyboard only', () => {
     await tabTo(page, 'open-trip');
     await page.keyboard.press('Enter');
     await expect(T(page, 'trip-title')).toHaveText(v.name);
-    await tabTo(page, 'join-name');
-    await page.keyboard.type('Keyboard Kim');
-    await tabTo(page, 'join-submit');
-    await page.keyboard.press('Enter');
-    await expect(T(page, 'me-name')).toContainText('Keyboard Kim');
+    // The creator's browser is already a member under the organizer name, so no name form appears.
+    await expect(T(page, 'me-name')).toContainText(v.organizer);
     const [first] = await getStanding(id);
     await tabTo(page, `vote-${first.activity_id}`);
     await page.keyboard.press('Space');
@@ -114,7 +112,7 @@ test.describe('Keyboard only', () => {
     await page.keyboard.press('Space');
     await tabTo(page, `who-${first.activity_id}`);
     await page.keyboard.press('Enter');
-    await expect(T(page, `voters-${first.activity_id}`)).toContainText('Keyboard Kim');
+    await expect(T(page, `voters-${first.activity_id}`)).toContainText(v.organizer);
     void testInfo;
   });
 

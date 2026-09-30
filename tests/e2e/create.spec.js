@@ -1,5 +1,6 @@
 import { test, expect } from '../helpers/fixtures.js';
 import { T, tripValues, gotoCreate, fillCreateForm, fillActivityRow, reviewTrip, createViaUi, openTrip, idFromLink } from '../helpers/ui.js';
+import { formatRange } from '../../js/format.js';
 import { getSummary, getStanding, tripsNamed, fmtDate, addDays, daysFromNow, localDateTimeValue, testName, TEST_PREFIX } from '../helpers/api.js';
 
 test.describe('Create trip', () => {
@@ -13,8 +14,7 @@ test.describe('Create trip', () => {
     const review = T(page, 'review-summary');
     await expect(review).toContainText(v.name);
     await expect(review).toContainText(v.destination);
-    await expect(review).toContainText(fmtDate(v.start));
-    await expect(review).toContainText(fmtDate(v.end));
+    await expect(review).toContainText(formatRange(v.start, v.end)); // contract: "Fri, Oct 30 to Tue, Nov 3, 2026, 5 days"
     await expect(review).toContainText('5 days');
     await expect(review).toContainText('2 activities'); // itinerary size with unit
     await expect(review).toContainText('4 activities'); // activity count with unit

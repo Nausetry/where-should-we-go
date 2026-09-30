@@ -454,6 +454,7 @@ export function subscribe(id, onChange, opts = {}) {
   let debounceTimer = null;
   let pollTimer = null;
   let wasDown = false;
+  let everJoined = false;
   let generation = 0;
 
   const fire = () => {
@@ -525,7 +526,10 @@ export function subscribe(id, onChange, opts = {}) {
       if (status === 'SUBSCRIBED') {
         joined = true;
         attempt = 0;
-        if (wasDown) { wasDown = false; fire(); } // missed events while down: refresh once
+        // Changes made after the page loaded but before the feed joined are not delivered, and so are
+        // changes made while the feed was down. Refresh once in either case.
+        if (wasDown || !everJoined) { wasDown = false; fire(); }
+        everJoined = true;
       } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
         joined = false;
         scheduleRetry();

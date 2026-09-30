@@ -177,11 +177,21 @@ export async function auditPage(page, { expectedAccent = null } = {}) {
 // Walks keyboard focus with Tab and checks the outline of every stop.
 export async function auditFocus(page, maxStops = 60) {
   const problems = [];
-  await page.evaluate(() => { document.activeElement?.blur?.(); window.scrollTo(0, 0); });
+  // In a modal dialog, start from the first control inside it, because Tab from the last
+  // control of a dialog leaves the page.
+  const inDialog = await page.evaluate(() => {
+    document.activeElement?.blur?.();
+    window.scrollTo(0, 0);
+    const dlg = document.querySelector('dialog[open]');
+    if (!dlg) return false;
+    const first = dlg.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
+    if (first) first.focus();
+    return !!first;
+  });
   const seen = new Set();
   let stops = 0;
   for (let i = 0; i < maxStops; i++) {
-    await page.keyboard.press('Tab');
+    if (!(inDialog && i === 0)) await page.keyboard.press('Tab');
     const info = await page.evaluate(() => {
       const el = document.activeElement;
       if (!el || el === document.body || el === document.documentElement) return null;

@@ -454,7 +454,8 @@ describe('subscribe', () => {
     await flush();
     c.calls.channels[0].statusCb('SUBSCRIBED');
     await vi.advanceTimersByTimeAsync(50);
-    expect(onChange).not.toHaveBeenCalled(); // first connection is not a refresh
+    // The first join refreshes once, to pick up changes made between page load and the feed joining.
+    expect(onChange).toHaveBeenCalledTimes(1);
 
     c.calls.channels[0].statusCb('CHANNEL_ERROR');
     await vi.advanceTimersByTimeAsync(999);
@@ -472,7 +473,7 @@ describe('subscribe', () => {
 
     c.calls.channels[2].statusCb('SUBSCRIBED');
     await vi.advanceTimersByTimeAsync(50);
-    expect(onChange).toHaveBeenCalledTimes(1); // refresh after reconnect
+    expect(onChange).toHaveBeenCalledTimes(2); // refresh after reconnect
 
     // and the backoff resets after success
     c.calls.channels[2].statusCb('CLOSED');

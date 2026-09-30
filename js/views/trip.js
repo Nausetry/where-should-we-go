@@ -158,7 +158,7 @@ export function mountTrip(root, tripId) {
       h('p', {
         class: 'caveat',
         testid: 'caveat-text',
-        text: 'Anyone with this link can vote, edit, and delete this trip. Each browser remembers only its own votes. Do not use this page for sensitive plans.',
+        text: 'Anyone with the link can vote, edit, and delete this trip. Each browser remembers only its own votes. Do not use this page for sensitive plans.',
       }),
     );
   }
@@ -269,8 +269,9 @@ export function mountTrip(root, tripId) {
     const when = s.closed_at || s.voting_deadline;
     const rows = data.standing.filter((r) => r.in_itinerary).sort((a, b) => a.rank - b.rank || a.seq - b.seq);
     const notes = [];
-    if (s.cast_votes_total === 0) notes.push('No votes were cast. Itinerary set by default rules.');
-    if (s.tie_broken) notes.push('A tie at the last itinerary place was broken: the default pick first, then the activity added earliest.');
+    const basisNotes = [];
+    if (s.cast_votes_total === 0) basisNotes.push('No votes were cast. Itinerary set by default rules.');
+    if (s.tie_broken) basisNotes.push('A tie at the last itinerary place was broken: the default pick first, then the activity added earliest.');
     if (s.activity_count < s.itinerary_size) {
       notes.push(`Itinerary has ${plural(s.activity_count, 'activity', 'activities')}. Size was set to ${s.itinerary_size}.`);
     }
@@ -306,7 +307,10 @@ export function mountTrip(root, tripId) {
       h('p', { class: 'accent', testid: 'confirmed-statement', text: `Itinerary confirmed on ${formatAsOf(when)}` }),
       h('p', {
         testid: 'basis-line',
-        text: `${plural(s.member_count, 'member', 'members')}, ${plural(s.cast_votes_total, 'cast vote', 'cast votes')}, ${plural(s.default_votes_total, 'default vote', 'default votes')}`,
+        text: [
+          `${plural(s.member_count, 'member', 'members')}, ${plural(s.cast_votes_total, 'cast vote', 'cast votes')}, ${plural(s.default_votes_total, 'default vote', 'default votes')}`,
+          ...basisNotes,
+        ].join('. ').replace(/\.\. /g, '. '),
       }),
       notes.map((t) => h('p', { class: 'basis-note', text: t })),
       table,
@@ -321,7 +325,7 @@ export function mountTrip(root, tripId) {
     standingHead.textContent = closed ? 'All activities and votes' : 'Activities and current standing';
     asofEl.textContent = `Standing as of ${formatAsOf(s.as_of)}`;
     sourceEl.textContent = 'Source: votes recorded for this trip, counted by the rule above. Each count opens a list of who voted and when.';
-    if (s.activity_count < s.itinerary_size) {
+    if (!closed && s.activity_count < s.itinerary_size) {
       sizeNoteEl.textContent = `Itinerary has ${plural(s.activity_count, 'activity', 'activities')}. Size was set to ${s.itinerary_size}.`;
       sizeNoteEl.hidden = false;
     } else {
@@ -366,6 +370,7 @@ export function mountTrip(root, tripId) {
       testid: `vote-${id}`,
       'aria-pressed': voted ? 'true' : 'false',
       disabled: closed,
+      'aria-label': `${voted ? 'Withdraw vote' : 'Vote'} for ${r.title}`,
       text: voted ? 'Withdraw vote' : 'Vote',
     });
     guarded(voteBtn, async () => {
@@ -380,9 +385,16 @@ export function mountTrip(root, tripId) {
         await api.setVote(tripId, id, !now);
         await refresh();
       } catch (err) {
-        voteErr.textContent = err.message || 'Your vote was not recorded. Try again.';
+        const text = err.message || 'Your vote was not recorded. Try again.';
+        if (err.code === 'voting_closed') {
+          // The refresh rebuilds this list and drops the line under the button, so the
+          // message goes in the shared message area, which the rebuild leaves in place.
+          await refresh();
+          msg.show(text, 'alert');
+          return;
+        }
+        voteErr.textContent = text;
         voteErr.hidden = false;
-        if (err.code === 'voting_closed') refresh();
       }
     });
 
@@ -391,6 +403,7 @@ export function mountTrip(root, tripId) {
       testid: `who-${id}`,
       'aria-expanded': whoOpen ? 'true' : 'false',
       'aria-controls': `voters-${id}`,
+      'aria-label': `${whoOpen ? 'Hide who voted' : 'Show who voted'} for ${r.title}`,
       text: whoOpen ? 'Hide who voted' : 'Show who voted',
     });
     whoBtn.addEventListener('click', () => {
@@ -399,6 +412,7 @@ export function mountTrip(root, tripId) {
       const open = S.who.has(id);
       whoBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
       whoBtn.textContent = open ? 'Hide who voted' : 'Show who voted';
+      whoBtn.setAttribute('aria-label', `${whoBtn.textContent} for ${r.title}`);
       votersEl.hidden = !open;
     });
 
@@ -421,10 +435,10 @@ export function mountTrip(root, tripId) {
 
     const actions = [voteBtn, whoBtn];
     if (!closed) {
-      actions.push(h('button', { type: 'button', testid: `edit-${id}`, text: 'Edit', onClick: () => startEdit(r) }));
-      actions.push(h('button', { type: 'button', testid: `remove-${id}`, text: 'Remove', onClick: () => removeActivity(r) }));
+      actions.push(h('button', { type: 'button', testid: `edit-${id}`, 'aria-label': `Edit ${r.title}`, text: 'Edit', onClick: () => startEdit(r) }));
+      actions.push(h('button', { type: 'button', testid: `remove-${id}`, 'aria-label': `Remove ${r.title}`, text: 'Remove', onClick: () => removeActivity(r) }));
       if (!r.is_default_pick) {
-        actions.push(h('button', { type: 'button', testid: `set-default-${id}`, text: 'Make default pick', onClick: () => setDefault(r) }));
+        actions.push(h('button', { type: 'button', testid: `set-default-${id}`, 'aria-label': `Make ${r.title} the default pick`, text: 'Make default pick', onClick: () => setDefault(r) }));
       }
     }
 
@@ -750,7 +764,8 @@ export function mountTrip(root, tripId) {
     await confirmAction({
       title: 'Close voting now?',
       consequence: [
-        `${s.not_voted_count} of ${s.member_count} members have not voted. The default pick${def ? `, "${def.title}",` : ''} counts once for each.`,
+        `${s.not_voted_count} of ${s.member_count} members have not voted. The default pick counts once for each.`,
+        def ? `The default pick is "${def.title}".` : '',
         `The itinerary is confirmed with ${plural(s.cast_votes_total, 'cast vote', 'cast votes')}. No votes can change until voting is reopened.`,
       ],
       okLabel: 'Close voting',

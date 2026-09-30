@@ -264,7 +264,7 @@ export function mountCreate(root) {
 
   function removeRow(i) {
     if (model.activities.length <= MIN_ROWS) {
-      setActivitiesError('A trip needs at least 3 activities. Edit this one instead of removing it.');
+      setActivitiesError('Add at least 3 activities. Edit this row instead of removing it.');
       return;
     }
     setActivitiesError('');

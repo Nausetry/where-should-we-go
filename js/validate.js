@@ -16,9 +16,11 @@ export const LIMITS = {
   longTripDays: 30,
 };
 
-const CONTROL_RE = /[\u0000-\u001F\u007F-\u009F]/;
+// Control characters plus invisible and direction-control characters (zero-width spaces,
+// right-to-left overrides). Matches the database rule in migration 0002.
+const CONTROL_RE = /[\u0000-\u001F\u007F-\u009F\u00AD\u034F\u061C\u115F\u1160\u17B4\u17B5\u180B-\u180E\u200B-\u200F\u2028-\u202E\u2060-\u206F\u3164\uFE00-\uFE0F\uFEFF\uFFA0\uFFF9-\uFFFC]/;
 const SPACE_RUN_RE = /[    -   　]+/g;
-const URL_RE = /^https?:\/\/[^\s\u0000-\u001F\u007F-\u009F]+$/;
+const URL_RE = /^https?:\/\/[^\s\u0000-\u001F\u007F-\u009F\u00AD\u034F\u061C\u115F\u1160\u17B4\u17B5\u180B-\u180E\u2028-\u202E\u200B-\u200F\u2060-\u206F\u3164\uFE00-\uFE0F\uFEFF\uFFA0\uFFF9-\uFFFC]+$/;
 const EMAIL_RE = /^[^\s@,;<>()[\]\\"]+@[^\s@,;<>()[\]\\"]+\.[^\s@,;<>()[\]\\".]{2,}$/;
 
 function len(s) {
@@ -107,7 +109,7 @@ export function validateField(name, value, ctx = {}) {
         const days = dayCount(start, v);
         if (days < 1) return fail(v, 'End date is before the start date.');
         if (days > LIMITS.longTripDays) {
-          return pass(v, `This trip is ${days} days long. Check the dates. It will still save.`);
+          return pass(v, `This trip is ${days} days long, more than 30 days. Check the dates. It will still save.`);
         }
       }
       return pass(v);

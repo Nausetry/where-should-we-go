@@ -274,8 +274,9 @@ export async function copyText(text) {
 export function confirmAction(o) {
   return new Promise((resolve) => {
     const opener = document.activeElement;
+    const openerId = opener && opener.getAttribute ? opener.getAttribute('data-testid') : null;
     const dlg = h('dialog', { testid: 'confirm-dialog', 'aria-labelledby': 'confirm-title' });
-    const consequence = Array.isArray(o.consequence) ? o.consequence.join(' ') : o.consequence;
+    const consequence = Array.isArray(o.consequence) ? o.consequence.filter(Boolean).join(' ') : o.consequence;
     const errorLine = h('p', { class: 'error', testid: 'confirm-error', role: 'alert', hidden: true });
     let inputField = null;
     let deadlineField = null;
@@ -318,7 +319,9 @@ export function confirmAction(o) {
     });
     dlg.addEventListener('close', () => {
       dlg.remove();
-      if (opener && opener.isConnected && typeof opener.focus === 'function') opener.focus({ preventScroll: true });
+      // A live refresh may have rebuilt the list while the dialog was open, so find the control again.
+      const back = opener && opener.isConnected ? opener : openerId ? byTestId(document, openerId) : null;
+      if (back && typeof back.focus === 'function') back.focus({ preventScroll: true });
       resolve(result);
     });
     form.addEventListener('submit', async (ev) => {

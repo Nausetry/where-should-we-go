@@ -24,6 +24,7 @@ body {
   font-size: var(--fs-3);
   line-height: 1.5;
   font-variant-numeric: lining-nums tabular-nums;
+  overflow-wrap: anywhere;
   font-feature-settings: "lnum" 1, "tnum" 1;
 }
 
@@ -37,7 +38,7 @@ h3 { font-size: var(--fs-3); font-weight: 600; }
 p { margin-bottom: 0.75rem; }
 h1[tabindex]:focus { outline: none; }
 
-.masthead { border-bottom: 2px solid var(--ink); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+.masthead { border-bottom: 1px solid var(--ink); padding-bottom: 1rem; margin-bottom: 1.5rem; }
 .masthead p { margin: 0.5rem 0 0; }
 .lede { color: var(--muted); }
 
@@ -85,7 +86,7 @@ input::-webkit-calendar-picker-indicator { min-width: 44px; min-height: 44px; cu
 .message[hidden], .error[hidden] { display: none; }
 .message[role="alert"]::before { content: "Problem: "; }
 
-.error-summary { padding: 0.75rem 0; margin-bottom: 1.5rem; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+.error-summary { padding: 0.75rem 0; margin-bottom: 1.5rem; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
 .error-summary:focus { outline: 2px solid #000000; outline-offset: 2px; }
 .error-summary h2 { font-size: var(--fs-3); margin-bottom: 0.25rem; }
 ul.plain { list-style: none; }
@@ -102,8 +103,8 @@ button, .button {
   background: #ffffff; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0;
   cursor: pointer; text-align: center;
 }
-button.primary, .button.primary { font-weight: 600; border-top: 1px solid var(--ink); border-bottom: 2px solid var(--ink); padding-left: 1rem; padding-right: 1rem; }
-button[aria-pressed="true"] { font-weight: 600; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+button.primary, .button.primary { font-weight: 600; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding-left: 1rem; padding-right: 1rem; }
+button[aria-pressed="true"] { font-weight: 600; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
 button:disabled { color: var(--muted); border-bottom-style: dotted; cursor: not-allowed; }
 button[aria-disabled="true"] { cursor: progress; border-bottom-style: dotted; }
 .actions { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: center; margin-top: 0.5rem; }
@@ -123,7 +124,7 @@ p.accent { font-weight: 600; margin-bottom: 0.5rem; }
 table { width: 100%; border-collapse: collapse; margin: 0.5rem 0 1rem; }
 caption { text-align: left; font-weight: 600; padding-bottom: 0.5rem; }
 th, td { text-align: left; padding: 0.625rem 0.75rem 0.625rem 0; border: 0; border-bottom: 1px solid var(--rule); vertical-align: top; background: #ffffff; }
-th { font-size: var(--fs-4); font-weight: 600; color: var(--ink); border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+th { font-size: var(--fs-4); font-weight: 600; color: var(--ink); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
 th.num, td.num { text-align: right; padding-right: 0; padding-left: 0.75rem; }
 td.num { font-variant-numeric: lining-nums tabular-nums; }
 
@@ -139,14 +140,14 @@ ul.activities { list-style: none; }
 .activity .actions { padding-left: 0; }
 .voters { margin-top: 0.5rem; padding: 0.5rem 0; border-top: 1px solid var(--rule); }
 .voters[hidden] { display: none; }
-.cutoff { padding: 0.5rem 0; border-bottom: 2px solid var(--ink); font-size: var(--fs-4); color: var(--muted); }
+.cutoff { padding: 0.5rem 0; border-bottom: 1px solid var(--ink); font-size: var(--fs-4); color: var(--muted); }
 
 .review-activities { padding-left: 1.5rem; margin-bottom: 1rem; }
 .review-activities li { padding: 0.5rem 0; }
 .link-text { font-size: var(--fs-2); overflow-wrap: anywhere; padding: 0.75rem 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); user-select: all; }
 
 /* Dialog */
-dialog { max-width: 32rem; width: calc(100% - 2rem); padding: 1.5rem 1rem; background: #ffffff; color: var(--ink); border: 0; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); box-shadow: none; font-family: inherit; }
+dialog { max-width: 32rem; width: calc(100% - 2rem); padding: 1.5rem 1rem; background: #ffffff; color: var(--ink); border: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); box-shadow: none; font-family: inherit; }
 dialog::backdrop { background: rgba(255, 255, 255, 0.9); }
 
 @media (max-width: 34rem) {

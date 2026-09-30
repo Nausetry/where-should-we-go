@@ -252,13 +252,62 @@ describe('join_trip', () => {
     await expectCode(join(anon, 'NOSUCHID', voterId(1), 'Sam'), 'trip_not_found');
   });
 
-  test('joining a closed trip is allowed', async () => {
+  test('a new person cannot join a closed trip (F-02, ADV-01)', async () => {
     const id = await createTrip(anon);
+    await join(anon, id, voterId(1), 'Sam');
     await closeByStatus(db, id);
-    await join(anon, id, voterId(3), 'Late Joiner');
+    const before = await summary(db, id);
+    await expectCode(join(anon, id, voterId(3), 'Late Joiner'), 'voting_closed');
+    const after = await summary(db, id);
+    expect(after.member_count).toBe(before.member_count);
+    expect(after.default_votes_total).toBe(before.default_votes_total);
     const id2 = await createTrip(anon);
     await closeByDeadline(db, id2);
-    await join(anon, id2, voterId(3), 'Late Joiner');
+    await expectCode(join(anon, id2, voterId(3), 'Late Joiner'), 'voting_closed');
+    expect((await summary(db, id2)).member_count).toBe(1);
+  });
+
+  test('an existing member may still change their name after close', async () => {
+    const id = await createTrip(anon);
+    await join(anon, id, voterId(1), 'Sam');
+    await closeByStatus(db, id);
+    await join(anon, id, voterId(1), 'Samantha');
+    const m = (await db.query('select display_name from public.members where trip_id = $1 and voter = $2', [id, voterId(1)])).rows;
+    expect(m).toEqual([{ display_name: 'Samantha' }]);
+    expect((await summary(db, id)).member_count).toBe(2);
+  });
+
+  test('reopening lets a new person join again', async () => {
+    const id = await createTrip(anon);
+    await closeByStatus(db, id);
+    await anon.query('select public.reopen_trip($1, null)', [id]);
+    await join(anon, id, voterId(4), 'Back Again');
+  });
+});
+
+describe('invisible characters (ADV-03)', () => {
+  const BAD = ['\u200B', '\u200D', '\u202E', '\u2066', '\uFEFF', '\u2060', '\u00AD', '\u3164'];
+  test.each(BAD)('member name with %j is refused', async (ch) => {
+    const id = await createTrip(anon);
+    await expectCode(join(anon, id, voterId(5), `Jo${ch}e`), 'invalid_input');
+    await expectCode(join(anon, id, voterId(5), `${ch}${ch}${ch}`), 'invalid_input');
+  });
+  test('trip name, destination, title, description and link refuse invisible characters', async () => {
+    await expectCode(createTrip(anon, { name: '\u200B\u200B\u200B' }), 'invalid_input');
+    await expectCode(createTrip(anon, { destination: 'Pro\u202Evince' }), 'invalid_input');
+    await expectCode(createTrip(anon, { organizer_name: 'Pa\u200Bt' }), 'invalid_input');
+    await expectCode(createTrip(anon, { voter: 'voter-\u200B001' }), 'invalid_input');
+    const acts = (over) => [{ title: 'Dune tour', ...over }, { title: 'Lobster dinner' }, { title: 'Whale cruise' }];
+    await expectCode(createTrip(anon, { activities: acts({ title: 'ZZ \u202Erevdrop\u202C x' }) }), 'invalid_input');
+    await expectCode(createTrip(anon, { activities: acts({ description: '\u200B\u200B' }) }), 'invalid_input');
+    await expectCode(createTrip(anon, { activities: acts({ source_url: 'http://\u200B' }) }), 'invalid_input');
+    const id = await createTrip(anon);
+    await expectCode(anon.query('select public.add_activity($1, $2::jsonb)', [id, JSON.stringify({ title: 'a\u200B\u200B\u200B' })]), 'invalid_input');
+  });
+  test('the table rules refuse them even when the functions are bypassed', async () => {
+    const id = await createTrip(anon);
+    await expect(db.query("update public.trips set name = 'ab' || chr(8203) || 'c' where id = $1", [id])).rejects.toThrow(/invisible|check/);
+    await expect(db.query("update public.members set display_name = chr(8238) || 'Pat' where trip_id = $1", [id])).rejects.toThrow(/invisible|check/);
   });
 });
 

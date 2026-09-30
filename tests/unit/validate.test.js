@@ -442,3 +442,29 @@ describe('parseInviteList', () => {
     expect(parseInviteList(' ,; \n ')).toEqual([]);
   });
 });
+
+describe('invisible and direction-control characters (ADV-03)', () => {
+  const BAD = ['​', '‍', '‮', '⁦', '﻿', '⁠', '­', 'ㅤ'];
+  test.each(BAD)('flagged by normalizeText: %j', (ch) => {
+    expect(normalizeText(`ab${ch}cd`).hadControl).toBe(true);
+  });
+  test.each(['tripName', 'destination', 'activityTitle', 'displayName'])('%s made only of invisible characters is refused', (name) => {
+    for (const ch of BAD) {
+      const r = vf(name, ch + ch + ch, { now: NOW, timeZone: TZ });
+      expect(r.ok).toBe(false);
+      expect(r.error).toMatch(/hidden characters/);
+    }
+  });
+  test('a right-to-left override inside a title is refused', () => {
+    expect(vf('activityTitle', 'ZZ ‮revdrop‬ x').ok).toBe(false);
+  });
+  test('description and web address refuse them too', () => {
+    expect(vf('activityDescription', '​​').ok).toBe(false);
+    expect(vf('sourceUrl', 'http://​').ok).toBe(false);
+    expect(vf('sourceUrl', 'https://exa​mple.com').ok).toBe(false);
+    expect(vf('sourceUrl', 'https://example.com/a').ok).toBe(true);
+  });
+  test('ordinary accented and non-Latin text still passes', () => {
+    expect(vf('activityTitle', 'Café Müller 東京').ok).toBe(true);
+  });
+});

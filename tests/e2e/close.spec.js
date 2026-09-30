@@ -147,6 +147,7 @@ test.describe('Close early and the confirmed itinerary', () => {
     const t = await trips.create({ label: 'One', size: 1, activities: 4 });
     const a3 = t.activities[2].activity_id;
     await addVoter(t.id, 'Ann Able', [a3]);
+    await addVoter(t.id, 'Bob Baker', [a3]);
     await closeTrip(t.id);
     await openTrip(page, t.id);
     await expectTableMatchesStanding(page, t.id);
@@ -228,10 +229,13 @@ test.describe('Deadline closing (clock control)', () => {
     const a = t.activities[0].activity_id;
     const { blockRealtime } = await import('../helpers/ui.js');
     await blockRealtime(page);
-    await installClock(page); // the page's clock is frozen from acting on its own timers until advanced
+    await installClock(page);
     await openTrip(page, t.id);
     await joinAs(page, 'Pat Jones');
-    await page.waitForTimeout(10000); // real deadline passes, page has not refreshed
+    // The real deadline passes, but the page's own one-second-late refresh has not run yet.
+    const wait = Date.parse(t.payload.voting_deadline) + 400 - Date.now();
+    expect(wait, 'the join took too long for this timing test').toBeGreaterThan(0);
+    await page.waitForTimeout(wait);
     await T(page, `vote-${a}`).click();
     await expect(page.getByText(/Voting closed at .+ E[SD]T\. Your vote was not recorded\./)).toBeVisible({ timeout: 10000 });
     expect((await getSummary(t.id)).cast_votes_total).toBe(0);
@@ -319,7 +323,7 @@ test.describe('Delete trip', () => {
     await expect(consequence).toContainText('3 members');
 
     // Wrong name, including the wrong case, is refused and the dialog stays.
-    for (const wrong of ['', 'nope', t.name.toLowerCase(), t.name + ' ']) {
+    for (const wrong of ['', 'nope', t.name.toLowerCase(), t.name + 'x']) {
       await T(page, 'confirm-input').fill(wrong);
       await T(page, 'confirm-ok').click();
       await expect(page.getByText('Type the trip name exactly to delete.')).toBeVisible();

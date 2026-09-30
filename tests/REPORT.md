@@ -1,19 +1,36 @@
+# Test report
 
-## Live site
+Run date: September 30, 2026. Release 1 (Open). Two full local runs, back to back, both green after the skeptic-review fixes.
 
-Run date: 2026-09-30, about 11:00 to 11:16 Eastern.
-Target: https://nausetry.github.io/where-should-we-go/ (GitHub Pages, branch main, path /).
-Backend: hosted Supabase project where-should-we-go. Migration 0001_release1.sql was applied with `supabase db push` during this run; before that every create test failed with "Something went wrong".
+## Results by layer
 
-Deployment: Pages enabled; the site answered 200 about 4 minutes after the first push. All asset paths are relative. One fix was needed: the tests used absolute `goto('/...')`, which ignores the /where-should-we-go/ path. They now use `./`.
+| Layer | What it covers | Count | Result |
+|---|---|---|---|
+| 1. Database tests (PGlite, migrations 0001 and 0002) | Every constraint, cascades, create-trip rollback, standing view, functions, closed-trip joins, hidden characters | part of 559 | Pass, both runs |
+| 2. Rule tests | Section 5 decision rule table | part of 559 | Pass, both runs |
+| 3. Input tests (unit) | Every field rule and error text, hidden-character rules, api wording, live feed | part of 559 | Pass, both runs |
+| Unit and database total (vitest) | Layers 1 to 3 | 559 tests | 559 passed, both runs |
+| 4. Browser tests (Playwright, desktop and phone) | Create, vote, withdraw, live update, close early, deadline close, reopen, delete, dropped connection, review fixes | 284 tests including layers 5 and 6 | 284 passed, both runs |
+| 5. Design checks | One red item, thin rules, no shadows or boxes, serif, tabular figures, contrast, tap targets, at 1280 and 390 pixels on every screen and state, plus source grep | included in the 284 | Pass |
+| 6. Accessibility | Keyboard-only flows, axe scan with no serious findings, named controls, focus return after dialogs | included in the 284 | Pass |
+| Secret scan | tests/scan-secrets.sh | 1 | Clean |
+| 7. Device check | Owner sign-off on a real phone | not automated | Waiting on the owner |
 
-Full suite, desktop and phone: 262 tests, 210 passed, 52 failed (15.9 minutes). The same create-screen failures occur on the local server, so they are not caused by hosting.
+## Skeptic findings
 
-Failure groups (app or test mismatches, not deployment faults):
-- Design suite thickRule check fails on the open and confirmed trip screens and dialogs at 1280 and 390 pixels (36 tests); accentWrongItem on 3 phone states.
-- Close and confirmed itinerary tests in close.spec.js (about 16): the "Itinerary has 3 activities. Size was set to 5." text appears twice, which breaks strict text matching, and other wording mismatches.
-- create.spec.js: review summary shows "Fri, Oct 30 to Tue, Nov 3, 2026" where the test expects "Fri, Oct 30, 2026"; activity-row minimum message and 30-day warning wording differ from the tests.
-- Keyboard-only test: focus did not reach a control on phone.
-- vote.spec.js header test, and one realtime test on phone.
+| Finding | Verdict | Fix | Regression test |
+|---|---|---|---|
+| F-01, A3 closed message lost on refresh | Real | Message now goes in the shared message area that the list rebuild leaves alone | review-fixes.spec.js, mid-vote message persists; close.spec.js and vote.spec.js |
+| F-02, ADV-01 new member joins after close | Real | Migration 0002: join_trip refuses a new member once voting is closed; existing members may still rename | db functions.test.js, review-fixes.spec.js |
+| F-03 thick rules | Real | All borders are 1 pixel | review-fixes.spec.js thin rules; design suite |
+| ADV-02 long text scrolls sideways | Real | Text wraps anywhere in the body | review-fixes.spec.js long text |
+| ADV-03 hidden and direction-control characters | Real | Rejected in page rules, in the functions, and by table rules (migration 0002) | unit, db, and browser tests |
+| A1 duplicate button names | Real | Each per-activity button names its activity; visible words unchanged | review-fixes.spec.js |
+| A2 focus lost after dialog | Real | Focus returns to the opener, found again if a live update rebuilt it | review-fixes.spec.js |
+| ADV-04 trips and voter ids are listable | Rejected as a defect for Release 1 | Open read and open editing are decisions D4 and R3, and the page says so. Release 2 replaces the policies. | none |
 
-Screenshots (desktop and phone; create screen, trip open, trip confirmed) are in tests/live-shots/. Reviewed by eye: layout, serif type, one red accent, and the confirmed itinerary table render correctly on both sizes.
+## Other fixes found while getting the suites green
+
+Product changes, to match the PRD and contract wording: the close dialog now reads "N of M members have not voted. The default pick counts once for each." with the pick named in a second sentence; the tie and no-vote notices are inside the basis line; the trip caveat says "Anyone with the link"; the activity minimum message begins "Add at least 3 activities."; the 30-day warning names 30 days; the itinerary size note no longer appears twice on a confirmed trip. The live feed now refreshes once when it first joins, which closes a gap where a change made just after page load was missed (a flaky rename test showed it).
+
+Test changes, where the test was wrong: the keyboard test typed a six digit year and expected a name form the creator never sees; the size-of-1 test expected a one-vote activity to beat a default vote tied with it; the deadline test assumed the page would not close itself; the create review test expected a full date for each end of the range, where the contract shows a range; the dialog focus audit now starts inside an open dialog; two design states had the wrong expected red item.

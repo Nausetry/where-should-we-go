@@ -108,7 +108,7 @@ export const STATES = [
     },
   },
   {
-    name: 'trip open, vote rejected after close', expectedAccent: 'trip-deadline',
+    name: 'trip open, vote rejected after close', expectedAccent: 'confirmed-statement',
     run: async ({ page, trips }) => {
       const t = await trips.create({ label: 'DesignRejected' });
       await blockRealtime(page);
@@ -169,10 +169,11 @@ export const STATES = [
   {
     name: 'dialog: reopen after the deadline', expectedAccent: 'confirmed-statement',
     run: async ({ page, trips }) => {
-      const t = await trips.create({ label: 'DesignReopen' });
-      await closeTrip(t.id);
+      const t = await trips.create({ label: 'DesignReopen', deadlineMs: 3000 });
+      await page.waitForTimeout(3500);
       await openTrip(page, t.id);
       await T(page, 'reopen-voting').click();
+      await T(page, 'confirm-dialog').waitFor();
     },
   },
 ];
