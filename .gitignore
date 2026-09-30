@@ -6,3 +6,5 @@ supabase/.branches/
 *.log
 .DS_Store
 test-results/
+
+!.env.example

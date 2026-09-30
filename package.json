@@ -7,7 +7,10 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:db": "vitest run",
+    "test:e2e": "playwright test",
+    "serve": "node tests/serve.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +23,10 @@
   "homepage": "https://github.com/Nausetry/where-should-we-go#readme",
   "private": "true",
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@electric-sql/pglite": "^0.5.8",
+    "@playwright/test": "^1.63.0",
+    "@supabase/supabase-js": "^2.117.2",
     "supabase": "^2.118.0",
     "vitest": "^5.0.3"
   }
