@@ -16,6 +16,10 @@ Run date: September 30, 2026. Release 1 (Open). Two full local runs, back to bac
 | Secret scan | tests/scan-secrets.sh | 1 | Clean |
 | 7. Device check | Owner sign-off on a real phone | not automated | Waiting on the owner |
 
+## Live site
+
+After the push, https://nausetry.github.io/where-should-we-go/ was polled until it served commit 34ec13e, then the full Playwright suite ran against it: 284 of 284 passed (desktop and phone). Migration 0002 is applied to the hosted database.
+
 ## Skeptic findings
 
 | Finding | Verdict | Fix | Regression test |
